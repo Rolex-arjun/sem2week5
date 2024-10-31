@@ -1,0 +1,13 @@
+Select all documents from employees
+db.Employees.find();
+
+select all documents from orders
+db.Orders.find();
+
+Select only FirstName and LastName from Employees
+db.Employees.find({}, { FirstName: 1, LastName: 1, _id: 0 });
+
+Select OrderID and Amount from Orders
+db.Orders.find({}, { OrderID: 1, Amount: 1, _id: 0 });
+
+
