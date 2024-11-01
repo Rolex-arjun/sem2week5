@@ -1,0 +1,5 @@
+Select all employees who work in the HR department:
+db.Employees.find({ Department: 'HR' });
+
+Select all orders with an Amount greater than 300:
+db.Orders.find({ Amount: { $gt: 300 } });
