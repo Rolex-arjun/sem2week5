@@ -1,0 +1,9 @@
+db.Employees.updateOne(
+  { EmployeeID: 1 },
+  { $set: { Department: 'Finance' } }
+);
+
+db.Orders.updateOne(
+  { OrderID: 2 },
+  { $set: { Amount: 500.00 } }
+);
