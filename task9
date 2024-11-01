@@ -1,0 +1,16 @@
+Count the number of employees:
+db.Employees.countDocuments();
+
+Count the number of orders:
+db.Orders.countDocuments();
+
+Find the average Amount of all orders:
+db.Orders.aggregate([
+  { $group: { _id: null, AverageAmount: { $avg: "$Amount" } } }
+]);
+
+Calculate the average age of employees (age calculated from DateOfBirth):
+db.Employees.aggregate([
+  { $addFields: { Age: { $dateDiff: { startDate: "$DateOfBirth", endDate: new Date(), unit: "year" } } } },
+  { $group: { _id: null, AverageAge: { $avg: "$Age" } } }
+]);
