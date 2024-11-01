@@ -1,0 +1,9 @@
+Count the number of employees in each Department:
+db.Employees.aggregate([
+  { $group: { _id: "$Department", EmployeeCount: { $sum: 1 } } }
+]);
+
+Calculate the total Amount of orders for each CustomerID:
+db.Orders.aggregate([
+  { $group: { _id: "$CustomerID", TotalAmount: { $sum: "$Amount" } } }
+]);
