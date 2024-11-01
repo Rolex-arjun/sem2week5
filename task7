@@ -1,0 +1,28 @@
+Employees in HR department and born after '1990-01-01
+db.Employees.find({
+  $and: [
+    { Department: 'HR' },
+    { DateOfBirth: { $gt: new Date('1990-01-01') } }
+  ]
+});
+
+Orders with Amount greater than 300 and OrderDate before '2023-01-01':
+db.Orders.find({
+  $and: [
+    { Amount: { $gt: 300 } },
+    { OrderDate: { $lt: new Date('2023-01-01') } }
+  ]
+});
+
+Employees in either HR or Finance department:
+db.Employees.find({
+  Department: { $in: ['HR', 'Finance'] }
+});
+
+Orders with Amount less than 100 or placed after '2023-01-01':
+db.Orders.find({
+  $or: [
+    { Amount: { $lt: 100 } },
+    { OrderDate: { $gt: new Date('2023-01-01') } }
+  ]
+});
