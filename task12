@@ -1,0 +1,22 @@
+Inner Join Employees and Orders on CustomerID:
+db.Employees.aggregate([
+  { $lookup: {
+      from: "Orders",
+      localField: "CustomerID",
+      foreignField: "CustomerID",
+      as: "OrderDetails"
+  }},
+  { $unwind: "$OrderDetails" },
+  { $project: { FirstName: 1, LastName: 1, "OrderDetails.Amount": 1 } }
+]);
+
+Left Join between Employees and Orders:
+db.Employees.aggregate([
+  { $lookup: {
+      from: "Orders",
+      localField: "CustomerID",
+      foreignField: "CustomerID",
+      as: "OrderDetails"
+  }},
+  { $project: { FirstName: 1, LastName: 1, OrderAmount: { $ifNull: [{ $arrayElemAt: ["$OrderDetails.Amount", 0] }, null] } } }
+]);
