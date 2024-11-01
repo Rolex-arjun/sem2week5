@@ -1,0 +1,12 @@
+Find all departments that have more than 5 employees:
+db.Employees.aggregate([
+  { $group: { _id: "$Department", EmployeeCount: { $sum: 1 } } },
+  { $match: { EmployeeCount: { $gt: 5 } } }
+]);
+
+
+Find all CustomerIDs with total order Amount greater than 1000:
+db.Orders.aggregate([
+  { $group: { _id: "$CustomerID", TotalAmount: { $sum: "$Amount" } } },
+  { $match: { TotalAmount: { $gt: 1000 } } }
+]);
