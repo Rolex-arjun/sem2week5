@@ -1,1 +1,70 @@
+// 1. Create Collections for Products, Suppliers, Shipments, Inventory, and Orders
+db.createCollection("Products");
+db.createCollection("Suppliers");
+db.createCollection("Shipments");
+db.createCollection("Inventory");
+db.createCollection("Orders");
 
+// 2. Insert Products with Details: ProductID, Name, SupplierID, Category, Price, Quantity
+db.Products.insertMany([
+  { ProductID: 1, Name: "Laptop", SupplierID: 101, Category: "Electronics", Price: 1200, Quantity: 50 },
+  { ProductID: 2, Name: "Mouse", SupplierID: 102, Category: "Accessories", Price: 20, Quantity: 200 },
+  { ProductID: 3, Name: "Keyboard", SupplierID: 103, Category: "Accessories", Price: 35, Quantity: 150 },
+  { ProductID: 4, Name: "Monitor", SupplierID: 101, Category: "Electronics", Price: 300, Quantity: 80 }
+]);
+
+// 3. Query to Select All Products Supplied by a Specific Supplier (e.g., SupplierID 101)
+db.Products.find({ SupplierID: 101 });
+
+// 4. Update Inventory Levels When a Shipment is Received
+// Example: Increase Quantity by 30 for ProductID 1
+db.Products.updateOne(
+  { ProductID: 1 },
+  { $inc: { Quantity: 30 } }
+);
+
+// 5. Delete Products That Are No Longer Sold
+// Example: Delete products where Quantity is zero or less
+db.Products.deleteMany({ Quantity: { $lte: 0 } });
+
+// 6. Filter Products Based on Stock Level and Reorder Status
+// Example: Find products with Quantity < 50 and ReorderStatus set to true
+db.Products.find({ $and: [{ Quantity: { $lt: 50 } }, { ReorderStatus: true }] });
+
+// 7. Use AND / OR to Filter Products by Category and Price Range
+// Example: Find products in "Accessories" category with Price between $10 and $100
+db.Products.find({
+  $and: [
+    { Category: "Accessories" },
+    { Price: { $gte: 10, $lte: 100 } }
+  ]
+});
+
+// OR Example: Find products in either "Accessories" or "Electronics" categories
+db.Products.find({
+  $or: [
+    { Category: "Accessories" },
+    { Category: "Electronics" }
+  ]
+});
+
+// 8. Sort Products by Stock Quantity
+// Ascending Order
+db.Products.find().sort({ Quantity: 1 });
+
+// Descending Order
+db.Products.find().sort({ Quantity: -1 });
+
+// 9. Count the Total Number of Shipments in the Shipments Collection
+db.Shipments.countDocuments();
+
+// 10. Group Inventory by Category and Calculate the Total Stock Value for Each Category
+// Assuming Total Stock Value is calculated as Price * Quantity
+db.Products.aggregate([
+  {
+    $group: {
+      _id: "$Category",
+      TotalStockValue: { $sum: { $multiply: ["$Price", "$Quantity"] } }
+    }
+  }
+]);
