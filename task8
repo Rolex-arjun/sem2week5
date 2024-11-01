@@ -1,0 +1,5 @@
+Employees ordered by LastName in ascending order:
+db.Employees.find().sort({ LastName: 1 });
+
+Orders ordered by Amount in descending order:
+db.Orders.find().sort({ Amount: -1 });
