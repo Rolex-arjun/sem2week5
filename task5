@@ -1,0 +1,6 @@
+Delete the employee from Employees where EmployeeID is 1
+
+db.Employees.deleteOne({ EmployeeID: 1 });
+
+Delete all orders from Orders where the Amount is less than 100:
+db.Orders.deleteMany({ Amount: { $lt: 100 } });
